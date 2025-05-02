@@ -380,6 +380,47 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d301b3b94cb4b2f23d7917810addbbaff90738e0ca2be692bd027e70d7e0330c"
 
 [[package]]
+name = "anyrender"
+version = "0.0.0"
+dependencies = [
+ "kurbo",
+ "peniko",
+]
+
+[[package]]
+name = "anyrender_svg"
+version = "0.0.0"
+dependencies = [
+ "anyrender",
+ "image",
+ "kurbo",
+ "peniko",
+ "thiserror 1.0.69",
+ "usvg",
+]
+
+[[package]]
+name = "anyrender_vello"
+version = "0.0.0"
+dependencies = [
+ "anyrender",
+ "kurbo",
+ "peniko",
+ "vello",
+]
+
+[[package]]
+name = "anyrender_vello_cpu"
+version = "0.0.0"
+dependencies = [
+ "anyrender",
+ "kurbo",
+ "peniko",
+ "vello_common",
+ "vello_cpu",
+]
+
+[[package]]
 name = "app_units"
 version = "0.7.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1553,8 +1594,6 @@ dependencies = [
 [[package]]
 name = "blitz-dom"
 version = "0.1.0-alpha.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eae8889dde80e2aaceec27455c63446ca841cb7217a4f5489691295da922792b"
 dependencies = [
  "accesskit",
  "app_units",
@@ -1566,10 +1605,11 @@ dependencies = [
  "html-escape",
  "image",
  "keyboard-types",
- "markup5ever 0.15.0",
+ "markup5ever 0.16.1",
+ "objc2 0.6.0",
  "parley",
  "peniko",
- "selectors 0.27.0",
+ "selectors 0.28.0",
  "slab",
  "smallvec",
  "string_cache",
@@ -1587,43 +1627,67 @@ dependencies = [
 [[package]]
 name = "blitz-net"
 version = "0.1.0-alpha.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "efc80023b8f6758d7f61bda68440917b72cbe2fe6187cbe1b7837e73b2522dfe"
 dependencies = [
  "blitz-traits",
  "data-url 0.3.1",
  "reqwest 0.12.15",
- "thiserror 1.0.69",
  "tokio",
+]
+
+[[package]]
+name = "blitz-paint"
+version = "0.1.0-alpha.1"
+dependencies = [
+ "anyrender",
+ "anyrender_svg",
+ "blitz-dom",
+ "blitz-traits",
+ "color",
+ "euclid",
+ "kurbo",
+ "parley",
+ "peniko",
+ "stylo",
+ "taffy",
+ "usvg",
 ]
 
 [[package]]
 name = "blitz-renderer-vello"
 version = "0.1.0-alpha.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "44fdafaf87eb502da99667fad2ae9757d01c8bd83772f6b7b6a78c48c3ab6ff5"
 dependencies = [
+ "anyrender",
+ "anyrender_vello",
  "blitz-dom",
+ "blitz-paint",
  "blitz-traits",
- "color",
- "euclid",
  "futures-intrusive",
- "image",
- "parley",
+ "kurbo",
+ "peniko",
  "pollster",
  "raw-window-handle 0.6.2",
- "stylo",
- "taffy",
  "vello",
- "vello_svg",
  "wgpu 23.0.1",
+]
+
+[[package]]
+name = "blitz-renderer-vello-cpu"
+version = "0.1.0-alpha.1"
+dependencies = [
+ "anyrender_vello_cpu",
+ "blitz-dom",
+ "blitz-paint",
+ "blitz-traits",
+ "image",
+ "kurbo",
+ "peniko",
+ "softbuffer",
+ "vello_cpu",
 ]
 
 [[package]]
 name = "blitz-shell"
 version = "0.1.0-alpha.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ef0a6122f3619a746dddd21883edaae5f791d6e9f401dbdf7f7756caa4f69453"
 dependencies = [
  "accesskit",
  "accesskit_winit",
@@ -1640,8 +1704,6 @@ dependencies = [
 [[package]]
 name = "blitz-traits"
 version = "0.1.0-alpha.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9972442314e8bf9dd65af7aee0634a2d575972587d404520c7c6986abbd523d3"
 dependencies = [
  "bitflags 2.9.0",
  "bytes",
@@ -3125,6 +3187,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "ctor-lite"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1f791803201ab277ace03903de1594460708d2d54df6053f2d9e82f592b19e3b"
+
+[[package]]
 name = "ctr"
 version = "0.9.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4248,6 +4316,7 @@ dependencies = [
  "blitz-dom",
  "blitz-net",
  "blitz-renderer-vello",
+ "blitz-renderer-vello-cpu",
  "blitz-shell",
  "blitz-traits",
  "dioxus-asset-resolver",
@@ -4701,6 +4770,45 @@ name = "dpi"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f25c0e292a7ca6d6498557ff1df68f32c99850012b6ea401cf8daf771f22ff53"
+
+[[package]]
+name = "drm"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "98888c4bbd601524c11a7ed63f814b8825f420514f78e96f752c437ae9cbb5d1"
+dependencies = [
+ "bitflags 2.9.0",
+ "bytemuck",
+ "drm-ffi",
+ "drm-fourcc",
+ "rustix 0.38.44",
+]
+
+[[package]]
+name = "drm-ffi"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "97c98727e48b7ccb4f4aea8cfe881e5b07f702d17b7875991881b41af7278d53"
+dependencies = [
+ "drm-sys",
+ "rustix 0.38.44",
+]
+
+[[package]]
+name = "drm-fourcc"
+version = "2.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0aafbcdb8afc29c1a7ee5fbe53b5d62f4565b35a042a662ca9fecd0b54dae6f4"
+
+[[package]]
+name = "drm-sys"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fd39dde40b6e196c2e8763f23d119ddb1a8714534bf7d77fa97a65b0feda3986"
+dependencies = [
+ "libc",
+ "linux-raw-sys 0.6.5",
+]
 
 [[package]]
 name = "dsa"
@@ -8263,6 +8371,12 @@ checksum = "d26c52dbd32dccf2d10cac7725f8eae5296885fb5703b261f7d0a0739ec807ab"
 
 [[package]]
 name = "linux-raw-sys"
+version = "0.6.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2a385b1be4e5c3e362ad2ffa73c392e53f031eaa5b7d648e64cd87f27f6063d7"
+
+[[package]]
+name = "linux-raw-sys"
 version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cd945864f07fe9f5371a27ad7b52a172b4b499999f1d97574c9fa68373937e12"
@@ -8529,16 +8643,13 @@ dependencies = [
 
 [[package]]
 name = "markup5ever"
-version = "0.15.0"
+version = "0.16.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "03a7b81dfb91586d0677086d40a6d755070e0799b71bb897485bac408dfd5c69"
+checksum = "d0a8096766c229e8c88a3900c9b44b7e06aa7f7343cc229158c3e58ef8f9973a"
 dependencies = [
  "log",
- "phf 0.11.3",
- "phf_codegen 0.11.3",
- "string_cache",
- "string_cache_codegen",
  "tendril",
+ "web_atoms",
 ]
 
 [[package]]
@@ -12042,9 +12153,9 @@ dependencies = [
 
 [[package]]
 name = "selectors"
-version = "0.27.0"
+version = "0.28.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5b75e048a93e14929e68e37b82e207db957cbb368375a80ed3ca28ac75080856"
+checksum = "db3079aef7a4383aff1e60eca2818995d3de8168e85ae4b6ea8fb2804b182c54"
 dependencies = [
  "bitflags 2.9.0",
  "cssparser 0.35.0",
@@ -12690,6 +12801,38 @@ dependencies = [
 ]
 
 [[package]]
+name = "softbuffer"
+version = "0.4.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "18051cdd562e792cad055119e0cdb2cfc137e44e3987532e0f9659a77931bb08"
+dependencies = [
+ "as-raw-xcb-connection",
+ "bytemuck",
+ "cfg_aliases 0.2.1",
+ "core-graphics 0.24.0",
+ "drm",
+ "fastrand",
+ "foreign-types 0.5.0",
+ "js-sys",
+ "log",
+ "memmap2",
+ "objc2 0.5.2",
+ "objc2-foundation 0.2.2",
+ "objc2-quartz-core",
+ "raw-window-handle 0.6.2",
+ "redox_syscall 0.5.11",
+ "rustix 0.38.44",
+ "tiny-xlib",
+ "wasm-bindgen",
+ "wayland-backend",
+ "wayland-client",
+ "wayland-sys",
+ "web-sys",
+ "windows-sys 0.59.0",
+ "x11rb",
+]
+
+[[package]]
 name = "soup3"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -13169,9 +13312,9 @@ dependencies = [
 
 [[package]]
 name = "stylo"
-version = "0.2.1"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bfacf8821bb157fbd6cebaa682f22bcebddc38e4165cdedba0061dae24b241c2"
+checksum = "d6034deda3e062865c4011d70a97ba8691bb00777f14c4575bee41451e46594d"
 dependencies = [
  "app_units",
  "arrayvec",
@@ -13185,12 +13328,11 @@ dependencies = [
  "fxhash",
  "icu_segmenter",
  "indexmap 2.9.0",
- "itertools 0.10.5",
+ "itertools 0.14.0",
  "itoa 1.0.15",
  "lazy_static",
  "log",
  "malloc_size_of_derive",
- "markup5ever 0.15.0",
  "matches",
  "mime",
  "new_debug_unreachable",
@@ -13202,7 +13344,7 @@ dependencies = [
  "precomputed-hash",
  "rayon",
  "rayon-core",
- "selectors 0.27.0",
+ "selectors 0.28.0",
  "serde",
  "servo_arc 0.4.0",
  "smallbitvec",
@@ -13224,13 +13366,14 @@ dependencies = [
  "url",
  "void",
  "walkdir",
+ "web_atoms",
 ]
 
 [[package]]
 name = "stylo_atoms"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b943c983729930ee70141ab6515604bb33ff5de8d7626024072c38a27c8023bb"
+checksum = "4b7dacdd62700078300263cece93a9c41823305d461ee5b3b65a51d6cdce3d38"
 dependencies = [
  "string_cache",
  "string_cache_codegen",
@@ -13238,15 +13381,15 @@ dependencies = [
 
 [[package]]
 name = "stylo_config"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b2e53afe5289d75063564e60aa59c591a2c496d3425f2bb2a3002251785e2058"
+checksum = "3fe07c673f8989e237e544c17723a8831d37d80b1a55437ac67bec8fe877e3cb"
 
 [[package]]
 name = "stylo_derive"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e745b58d581ba8eb932825e684634eae9be848fd49c086b3f17ccb7d6c417594"
+checksum = "9a2c2bf677324ef587e97b8f5fc055f97a50bd26493411100e1442824ab289b8"
 dependencies = [
  "darling",
  "proc-macro2",
@@ -13257,9 +13400,9 @@ dependencies = [
 
 [[package]]
 name = "stylo_dom"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "06606e83c4feb986ea601a2c7d625aa5c303ecfc9526494480f6e599b8d6956e"
+checksum = "183a89dc60a136308a1c83056660692bb598b3a99db2ac79b1b53f935cf3c87d"
 dependencies = [
  "bitflags 2.9.0",
  "stylo_malloc_size_of",
@@ -13267,14 +13410,14 @@ dependencies = [
 
 [[package]]
 name = "stylo_malloc_size_of"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "93db6fdbcde7f037f7810873374d85a2b3d37686b046577943818167a6e52d3f"
+checksum = "150243bffdabaeafc7370354f6102559fec103b63d84875383fb657dd9c8549c"
 dependencies = [
  "app_units",
  "cssparser 0.35.0",
  "euclid",
- "selectors 0.27.0",
+ "selectors 0.28.0",
  "servo_arc 0.4.0",
  "smallbitvec",
  "smallvec",
@@ -13285,15 +13428,13 @@ dependencies = [
 
 [[package]]
 name = "stylo_static_prefs"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "decb57071c4b4d5690a9719fb04a07cf2fab0fa3df99a830ef735192a1a98e5d"
+checksum = "9600d11cdad6c275426272f35fbe085c4362be1d67bb9775f378fd2be7942d3a"
 
 [[package]]
 name = "stylo_taffy"
 version = "0.1.0-alpha.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a6da84b2bae9d25a2156b7cf89acab90683ac4d25dcb3fe1817dc9e77a20ce2f"
 dependencies = [
  "stylo",
  "taffy",
@@ -13301,16 +13442,16 @@ dependencies = [
 
 [[package]]
 name = "stylo_traits"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5f611ebeee90c0d255bf4d4fadc05f964ef019f8aaed307108fa859c826f2753"
+checksum = "2a24b6eb257a1e68e184e113a3a426dd9e38e4a0017b805fcf43a44c939e5642"
 dependencies = [
  "app_units",
  "bitflags 2.9.0",
  "cssparser 0.35.0",
  "euclid",
  "malloc_size_of_derive",
- "selectors 0.27.0",
+ "selectors 0.28.0",
  "serde",
  "servo_arc 0.4.0",
  "stylo_atoms",
@@ -14410,6 +14551,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "tiny-xlib"
+version = "0.2.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0324504befd01cab6e0c994f34b2ffa257849ee019d3fb3b64fb2c858887d89e"
+dependencies = [
+ "as-raw-xcb-connection",
+ "ctor-lite",
+ "libloading 0.8.6",
+ "pkg-config",
+ "tracing",
+]
+
+[[package]]
 name = "tinystr"
 version = "0.7.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -15408,6 +15562,35 @@ dependencies = [
 ]
 
 [[package]]
+name = "vello_api"
+version = "0.4.0"
+source = "git+https://github.com/linebender/vello?rev=24feb9a6#24feb9a6d1b8c72a2066e295196caeab2044a210"
+dependencies = [
+ "peniko",
+ "png",
+]
+
+[[package]]
+name = "vello_common"
+version = "0.4.0"
+source = "git+https://github.com/linebender/vello?rev=24feb9a6#24feb9a6d1b8c72a2066e295196caeab2044a210"
+dependencies = [
+ "bytemuck",
+ "roxmltree",
+ "skrifa",
+ "smallvec",
+ "vello_api",
+]
+
+[[package]]
+name = "vello_cpu"
+version = "0.4.0"
+source = "git+https://github.com/linebender/vello?rev=24feb9a6#24feb9a6d1b8c72a2066e295196caeab2044a210"
+dependencies = [
+ "vello_common",
+]
+
+[[package]]
 name = "vello_encoding"
 version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -15430,18 +15613,6 @@ dependencies = [
  "naga 23.1.0",
  "thiserror 2.0.12",
  "vello_encoding",
-]
-
-[[package]]
-name = "vello_svg"
-version = "0.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3a0fd265f55b496a8048a43c769bf15487f2be9f6642086b3468c64677cc8c87"
-dependencies = [
- "image",
- "thiserror 2.0.12",
- "usvg",
- "vello",
 ]
 
 [[package]]
@@ -15993,6 +16164,18 @@ checksum = "5a6580f308b1fad9207618087a65c04e7a10bc77e02c8e84e9b00dd4b12fa0bb"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "web_atoms"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0b9c5f0bc545ea3b20b423e33b9b457764de0b3730cd957f6c6aa6c301785f6e"
+dependencies = [
+ "phf 0.11.3",
+ "phf_codegen 0.11.3",
+ "string_cache",
+ "string_cache_codegen",
 ]
 
 [[package]]

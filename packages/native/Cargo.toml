@@ -22,11 +22,12 @@ autofocus = []
 
 [dependencies]
 # Blitz dependencies
-blitz-renderer-vello = { version = "0.1.0-alpha.1", default-features = false }
-blitz-dom = { version = "0.1.0-alpha.1", default-features = false }
-blitz-net = { version = "0.1.0-alpha.1", optional = true }
-blitz-traits = { version = "0.1.0-alpha.1" }
-blitz-shell = { version = "0.1.0-alpha.1", default-features = false }
+blitz-renderer-vello = { path = "../../../blitz/packages/blitz-renderer-vello", version = "0.1.0-alpha.1", default-features = false }
+blitz-renderer-vello-cpu = { path = "../../../blitz/packages/blitz-renderer-vello-cpu", version = "0.1.0-alpha.1", default-features = false }
+blitz-dom = { path = "../../../blitz/packages/blitz-dom", version = "0.1.0-alpha.1", default-features = false }
+blitz-net = { path = "../../../blitz/packages/blitz-net", version = "0.1.0-alpha.1", optional = true }
+blitz-traits = { path = "../../../blitz/packages/blitz-traits", version = "0.1.0-alpha.1" }
+blitz-shell = { path = "../../../blitz/packages/blitz-shell", version = "0.1.0-alpha.1", default-features = false }
 # blitz-renderer-vello = { git = "https://github.com/dioxuslabs/blitz", rev="c1a7ecf06d1760a268e0046dc0e43f6c796ddc3c", default-features = false }
 # blitz-dom = { git = "https://github.com/dioxuslabs/blitz", rev="c1a7ecf06d1760a268e0046dc0e43f6c796ddc3c", default-features = false }
 # blitz-net = { git = "https://github.com/dioxuslabs/blitz", rev="c1a7ecf06d1760a268e0046dc0e43f6c796ddc3c", optional = true }
